@@ -6,19 +6,30 @@ class ListCharacter extends Component {
    
     render(){
         let characters = this.props.characters;
-        return (
+        return (            
             <div className="">
-                
-
-                <div className="list">
+                <table className="table">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Birth Year</th>
+                            <th>Height</th>
+                            <th>Mass</th>
+                            <th>Homeworld</th>
+                            <th>Species</th>
+                        </tr>
+                    </thead>
+                    <tbody>
                     {characters.map(character => (
                         <Character 
                             key={character.name}
                             character={character}
                         />
                     ))}
-                </div>
-            </div>    
+                    </tbody>
+                </table>
+                
+            </div>
         );
     }
 }

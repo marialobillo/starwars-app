@@ -1,18 +1,29 @@
-import React from 'react';
+import React, {Component} from 'react';
 
-const Character = ({character}) => {
 
-    const {name, birth_year, height, mass, homeworld, species} = character;
-   
-    return(
-        <div className="">
-            <p>Name: {name}</p>
-            <p>Birth Year: {birth_year}</p>
-            <p>Height: {height}</p>
-            <p>Mass: {mass}</p>
-            <hr/>
-        </div>
-    );
+class Character extends Component{
+
+    render(){
+        const {
+            name, 
+            birth_year, 
+            height, 
+            mass, 
+            homeworld, 
+            species
+        } = this.props.character;
+
+        return (
+        <tr className="">
+            <td>{name}</td>
+            <td>{birth_year}</td>
+            <td>{height}</td>
+            <td>{mass}</td>
+            <td>{homeworld}</td>
+            <td>{species}</td>
+        </tr>
+        );
+    }
 }
 
 

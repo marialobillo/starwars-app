@@ -1,4 +1,6 @@
 import React,{Component} from 'react';
+import './bootstrap.min.css';
+import Header from './components/Header';
 import ListCharacter from './components/ListCharacter';
 
 class App extends Component{
@@ -10,7 +12,6 @@ class App extends Component{
     }
   }
   
-
   componentDidMount(){
     this.getRequest();
     //this.setState({filteredCharacters: this.state.characters})
@@ -32,13 +33,10 @@ class App extends Component{
   handleChange = event => {
     let updatedList = this.state.characters;
     
-    
     updatedList = updatedList.filter((item) => {
       const lowercase = item.name.toLowerCase();
       const filter = event.target.value.toLowerCase();
       return lowercase.includes(filter);
-      
-     
     });
 
     this.setState({
@@ -47,11 +45,10 @@ class App extends Component{
 
   }
 
-
   render(){
-
     return (
       <div className="container">
+        <Header title="Star Wars Characters" />
         <form>
           <input 
             type="text"
