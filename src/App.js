@@ -2,46 +2,66 @@ import React,{Component} from 'react';
 import ListCharacter from './components/ListCharacter';
 
 class App extends Component{
-  state = {
-    characters: [],
-    items: 0,
-    allItems: [],
+  constructor(){
+    super();
+    this.state = {
+      characters: [],
+      filteredCharacters: [],
+    }
   }
+  
 
   componentDidMount(){
     this.getRequest();
-    //console.log(this.state.allItems)
+    //this.setState({filteredCharacters: this.state.characters})
   }
     
-
-  
-
   getRequest = async (page = 1) => {
     const url =`https://swapi.co/api/people/?page=${page}`;
 
     const request = await fetch(url);
     const people = await request.json();
-
-    //const peopleCount = people.count;
     const results = people.results;
-    console.log(results);
 
     this.setState({
       characters: results,
+      filteredCharacters: results,
     });
   }
 
-  handleChange = e => {
+  handleChange = event => {
+    let updatedList = this.state.characters;
     
+    
+    updatedList = updatedList.filter((item) => {
+      const lowercase = item.name.toLowerCase();
+      const filter = event.target.value.toLowerCase();
+      return lowercase.includes(filter);
+      
+     
+    });
+
+    this.setState({
+      filteredCharacters: updatedList
+    });
+
   }
+
+
   render(){
+
     return (
       <div className="container">
-        <div className="">
-          <input onChange={this.handleChange}/>
-        </div>
-
-        <ListCharacter characters={this.state.characters} />
+        <form>
+          <input 
+            type="text"
+            className="form-control form-control-lg"
+            placeholder="Search character"
+            onChange={this.handleChange}
+          />
+        </form>
+        
+        <ListCharacter characters={this.state.filteredCharacters} />
       </div>
     );  
   }
