@@ -2,6 +2,7 @@ import React,{Component} from 'react';
 import './bootstrap.min.css';
 import Header from './components/Header';
 import ListCharacter from './components/ListCharacter';
+import Pagination from './components/Pagination';
 
 class App extends Component{
   constructor(){
@@ -9,6 +10,8 @@ class App extends Component{
     this.state = {
       characters: [],
       filteredCharacters: [],
+      currentPage: 1,
+      postsPerPage: 10,
     }
   }
   
@@ -61,8 +64,17 @@ class App extends Component{
     });
 
   }
+  paginate(pageNumber){
+    this.setState({
+      currentPage: pageNumber
+    })
+  }
 
   render(){
+    const indexOfLastPost = this.state.currentPage * this.state.postsPerPage;
+    const indexOfFirstPost = indexOfLastPost - this.state.postsPerPage;
+    const currentPosts = this.state.filteredCharacters.slice(indexOfFirstPost, indexOfLastPost);
+
     return (
       <div className="container">
         <Header title="Star Wars Characters" />
@@ -75,7 +87,13 @@ class App extends Component{
           />
         </form>
         
-        <ListCharacter characters={this.state.filteredCharacters} />
+        <ListCharacter characters={currentPosts} />
+
+        <Pagination 
+          postsPerPage={this.state.postsPerPage}
+          totalPosts={this.state.filteredCharacters.length}
+          paginate={this.paginate}
+        />
       </div>
     );  
   }
