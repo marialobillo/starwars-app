@@ -1,11 +1,11 @@
-import React,{Component} from 'react';
+import React, { Component } from 'react';
 import './bootstrap.min.css';
 import Header from './components/Header';
 import ListCharacter from './components/ListCharacter';
 import Pagination from './components/Pagination';
 
-class App extends Component{
-  constructor(){
+class App extends Component {
+  constructor() {
     super();
     this.state = {
       characters: [],
@@ -14,34 +14,31 @@ class App extends Component{
       postsPerPage: 10,
     }
   }
-  
-  componentDidMount(){
-    for(let i = 1; i < 10; i++){
+
+  componentDidMount() {
+    for (let i = 1; i < 10; i++) {
       this.getRequest(i);
     }
     //this.getRequest();
     //this.setState({filteredCharacters: this.state.characters})
   }
-    
+
   getRequest = async (page = 1) => {
-    const url =`https://swapi.co/api/people/?page=${page}`;
+    const url = `https://swapi.co/api/people/?page=${page}`;
 
     const request = await fetch(url);
     const people = await request.json();
     const results = people.results;
-    
+
     const currentCharacters = [...this.state.characters];
-    console.log(page, results.length);
-    
+
     results.forEach(item => {
-      if(!currentCharacters.includes(item.name)){
+      if (!currentCharacters.includes(item.name)) {
         currentCharacters.push(item);
 
       }
     });
-  
-    console.log(currentCharacters);
-  
+
     this.setState({
       characters: currentCharacters,
       filteredCharacters: currentCharacters,
@@ -51,7 +48,7 @@ class App extends Component{
 
   handleChange = event => {
     let updatedList = this.state.characters;
-    
+
     updatedList = updatedList.filter((item) => {
 
       const lowercase = item.name.toLowerCase();
@@ -64,13 +61,14 @@ class App extends Component{
     });
 
   }
-  paginate(pageNumber){
+  paginate = (pageNumber) => {
+    console.log(pageNumber);
     this.setState({
       currentPage: pageNumber
     })
   }
 
-  render(){
+  render() {
     const indexOfLastPost = this.state.currentPage * this.state.postsPerPage;
     const indexOfFirstPost = indexOfLastPost - this.state.postsPerPage;
     const currentPosts = this.state.filteredCharacters.slice(indexOfFirstPost, indexOfLastPost);
@@ -79,23 +77,23 @@ class App extends Component{
       <div className="container">
         <Header title="Star Wars Characters" />
         <form>
-          <input 
+          <input
             type="text"
             className="form-control form-control-lg"
             placeholder="Search character"
             onChange={this.handleChange}
           />
         </form>
-        
+
         <ListCharacter characters={currentPosts} />
 
-        <Pagination 
+        <Pagination
           postsPerPage={this.state.postsPerPage}
           totalPosts={this.state.filteredCharacters.length}
           paginate={this.paginate}
         />
       </div>
-    );  
+    );
   }
 }
 
