@@ -11,7 +11,7 @@ class App extends Component {
       characters: [],
       filteredCharacters: [],
       currentPage: 1,
-      postsPerPage: 10,
+      charactersPerPage: 10,
     }
   }
 
@@ -66,9 +66,9 @@ class App extends Component {
   }
 
   render() {
-    const indexOfLastPost = this.state.currentPage * this.state.postsPerPage;
-    const indexOfFirstPost = indexOfLastPost - this.state.postsPerPage;
-    const currentPosts = this.state.filteredCharacters.slice(indexOfFirstPost, indexOfLastPost);
+    const indexOfLastCharacter = this.state.currentPage * this.state.charactersPerPage;
+    const indexOfFirstCharacter = indexOfLastCharacter - this.state.charactersPerPage;
+    const currentCharacters = this.state.filteredCharacters.slice(indexOfFirstCharacter, indexOfLastCharacter);
 
     return (
       <div className="container">
@@ -82,11 +82,11 @@ class App extends Component {
           />
         </form>
 
-        <ListCharacter characters={currentPosts} />
+        <ListCharacter characters={currentCharacters} />
 
         <Pagination
-          postsPerPage={this.state.postsPerPage}
-          totalPosts={this.state.filteredCharacters.length}
+          charactersPerPage={this.state.charactersPerPage}
+          totalCharacters={this.state.filteredCharacters.length}
           paginate={this.paginate}
         />
       </div>
