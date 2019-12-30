@@ -20,12 +20,13 @@ class ListCharacter extends Component {
                         </tr>
                     </thead>
                     <tbody>
-                    {characters.map(character => (
-                        <Character 
+                    {characters.map(character => {
+                        return (<Character 
                             key={character.name}
                             character={character}
                         />
-                    ))}
+                        );
+                    })}
                     </tbody>
                 </table>
                 

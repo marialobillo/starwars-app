@@ -19,8 +19,6 @@ class App extends Component {
     for (let i = 1; i < 10; i++) {
       this.getRequest(i);
     }
-    //this.getRequest();
-    //this.setState({filteredCharacters: this.state.characters})
   }
 
   getRequest = async (page = 1) => {
@@ -62,7 +60,6 @@ class App extends Component {
 
   }
   paginate = (pageNumber) => {
-    console.log(pageNumber);
     this.setState({
       currentPage: pageNumber
     })
