@@ -1,48 +1,40 @@
 import React, { Component } from 'react';
-import './bootstrap.min.css';
 import Header from './components/Header';
 import ListCharacter from './components/ListCharacter';
 import Pagination from './components/Pagination';
+import './bootstrap.min.css';
 
 class App extends Component {
-  constructor() {
-    super();
-    this.state = {
-      characters: [],
-      filteredCharacters: [],
-      currentPage: 1,
-      charactersPerPage: 10,
-    }
+  state = {
+    characters: [],
+    selectedCharacters: [],
+    currentPage: 1,
+    charactersPerPage: 10,
+    totalCharacters: 0,
   }
 
   componentDidMount() {
-    for (let i = 1; i < 10; i++) {
-      this.getRequest(i);
-    }
+    this.getRequest(this.state.currentPage);
   }
 
-  getRequest = async (page = 1) => {
+  
+
+  
+  getRequest = async (page) => {
     const url = `https://swapi.co/api/people/?page=${page}`;
 
     const request = await fetch(url);
     const people = await request.json();
     const results = people.results;
 
-    const currentCharacters = [...this.state.characters];
-
-    results.forEach(item => {
-      if (!currentCharacters.includes(item.name)) {
-        currentCharacters.push(item);
-
-      }
-    });
-
     this.setState({
-      characters: currentCharacters,
-      filteredCharacters: currentCharacters,
+      characters: results,
+      selectedCharacters: results,
+      totalCharacters: people.count,
     });
-
   }
+
+  
 
   handleChange = event => {
     let updatedList = this.state.characters;
@@ -55,38 +47,33 @@ class App extends Component {
     });
 
     this.setState({
-      filteredCharacters: updatedList
+      selectedCharacters: updatedList
     });
-
   }
+
+
   paginate = (pageNumber) => {
     this.setState({
       currentPage: pageNumber
     })
+    this.getRequest(pageNumber);
   }
-
+  
   render() {
-    const indexOfLastCharacter = this.state.currentPage * this.state.charactersPerPage;
-    const indexOfFirstCharacter = indexOfLastCharacter - this.state.charactersPerPage;
-    const currentCharacters = this.state.filteredCharacters.slice(indexOfFirstCharacter, indexOfLastCharacter);
-
     return (
       <div className="container">
-        <Header title="Star Wars Characters" />
-        <form>
+        <Header title="Star Wars API Characters" />
+        <div className="">
           <input
-            type="text"
-            className="form-control form-control-lg"
-            placeholder="Search character"
             onChange={this.handleChange}
-          />
-        </form>
+            className="form-control form-control-lg" />
+        </div>
 
-        <ListCharacter characters={currentCharacters} />
+        <ListCharacter characters={this.state.selectedCharacters} />
 
         <Pagination
           charactersPerPage={this.state.charactersPerPage}
-          totalCharacters={this.state.filteredCharacters.length}
+          totalCharacters={this.state.totalCharacters}
           paginate={this.paginate}
         />
       </div>
