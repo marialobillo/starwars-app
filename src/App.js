@@ -11,15 +11,13 @@ class App extends Component {
     currentPage: 1,
     charactersPerPage: 10,
     totalCharacters: 0,
+    isLoading: true,
   }
 
   componentDidMount() {
     this.getRequest(this.state.currentPage);
   }
 
-  
-
-  
   getRequest = async (page) => {
     const url = `https://swapi.co/api/people/?page=${page}`;
 
@@ -27,10 +25,22 @@ class App extends Component {
     const people = await request.json();
     const results = people.results;
 
+    for(const person of results){
+      const homeworldRequest = await fetch(person.homeworld);
+      const homeworldData = await homeworldRequest.json();
+
+      const speciesRequest = await fetch(person.species);
+      const speciesData = await speciesRequest.json();
+
+      person.homeworld = homeworldData.name;
+      person.species = speciesData.name;
+    }
+
     this.setState({
       characters: results,
       selectedCharacters: results,
       totalCharacters: people.count,
+      isLoading: false
     });
   }
 
@@ -69,7 +79,10 @@ class App extends Component {
             className="form-control form-control-lg" />
         </div>
 
-        <ListCharacter characters={this.state.selectedCharacters} />
+        <ListCharacter 
+          characters={this.state.selectedCharacters} 
+          isLoading={this.state.isLoading}
+        />
 
         <Pagination
           charactersPerPage={this.state.charactersPerPage}

@@ -2,7 +2,7 @@ import React from 'react';
 import Character from './Character';
 
 
-const ListCharacter = ({characters}) => (
+const ListCharacter = ({characters, isLoading}) => (
     <div className="row">
         <table className="table">
             <thead className="thead-dark">
@@ -16,7 +16,11 @@ const ListCharacter = ({characters}) => (
                 </tr>
             </thead>
             <tbody>
-        {characters.map(character => (
+        {isLoading 
+        ? <tr>
+            <td coldspan="6">Loading...</td>
+            </tr>
+        :characters.map(character => (
             <Character 
                 key={character.name}
                 character={character}
