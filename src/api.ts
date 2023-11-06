@@ -3,7 +3,7 @@ import axios from 'axios';
 
 const instance = axios.create({ baseURL: 'https://swapi.dev/api/' });
 
-export const getPeople = async (page: string) => {
+export const getPeople = async (page: number) => {
   const response = await instance.get(`people/?page=${page}`);
   return response.data.results
 }
@@ -18,3 +18,4 @@ export const getPerson = async (id: string) => {
   const response = await instance.get(`people/${id}`);
   return response.data
 }
+
