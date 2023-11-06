@@ -1,3 +1,22 @@
+_Star Wars API using React._
+
+<img src="demo_home.png" width="400">
+
+## Description
+
+Star Wars API is an application that allows you to consult about the Star Wars Characters. The main objective of this project is to server as a learning tool and familiarize myself with React, components in React like class components and stateless components, life cicle of a component, and consunming API.
+
+## Demo
+
+<img src="demo_profile.png" width="400">
+
+## Author
+ -  **Maria Lobillo-Santos** - Full-Stack Developer <a href="https://marialobillo.github.io">Website</a> | 
+ <a href="https://www.linkedin.com/in/lobillosantos/">LinkedIn</a>
+
+
+##
+
 # React + TypeScript + Vite
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
